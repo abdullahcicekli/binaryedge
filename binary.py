@@ -1,5 +1,5 @@
 import time
-
+import json
 import requests
 
 headers = {
@@ -17,7 +17,7 @@ headers = {
     'accept-language': 'en-US,en;q=0.9',
 }
 
-data = '{"email":"170509051@firat.edu.tr","password":"CklsEJTmnrXfLG9U3Tph"}'
+data = '{"email":"example@example.com","password":"examplepassword"}' #Platform Giriş Bilgileri Buraya Girilecek.
 
 token = requests.post('https://api.binaryedge.io/v2/user/login/', headers=headers, data=data)
 print()
@@ -25,7 +25,7 @@ headers = {
     'authorization': f"JWT {token.json()['token']}"
 }
 be_list = []
-for i in range(1, 10):
+for i in range(1, 10): #KAÇ SAYFA ÇEKİLECEK SE BURADA BELİRTİLECEK.
     time.sleep(1)
     response_main = requests.get(
         f"https://api.binaryedge.io/v2/query/web/search?page={i + 1}&query=port:9200%20type:elasticsearch",
@@ -55,4 +55,5 @@ for i in range(1, 10):
         be_list.append(new_dict)
 
 
-print(be_list)
+with open("elasticleaked.json","w") as f:
+    json.dump(be_list, f, indent=3)
